@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shopapp/models/onboarding_model.dart';
 import 'package:shopapp/modules/login/login_screen.dart';
+import 'package:shopapp/shared/component/component.dart';
+import 'package:shopapp/shared/network/local/cach_helper.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -13,7 +15,15 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final controller = PageController();
   bool isLast = false;
-  @override
+
+  void submit() {
+    CachHelper.saveData(key: 'onBoardung', value: true).then((value) {
+      if (value) {
+        navigateAndFinish(context, ShopLoginScreen());
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +31,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              // submit();
+              submit();
             },
             child: const Text('Skip'),
           ),
@@ -72,12 +82,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 FloatingActionButton(
                   onPressed: () {
                     if (isLast) {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
-                          ),
-                          (route) => false);
+                      submit();
                     } else {
                       controller.nextPage(
                           duration: const Duration(

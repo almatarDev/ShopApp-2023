@@ -1,12 +1,14 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopapp/layout/shop_layout.dart';
 import 'package:shopapp/modules/login/cubit/login_cubit.dart';
 import 'package:shopapp/modules/login/cubit/login_states.dart';
 import 'package:shopapp/shared/component/component.dart';
+import 'package:shopapp/shared/network/local/cach_helper.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class ShopLoginScreen extends StatelessWidget {
+  const ShopLoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +23,24 @@ class LoginScreen extends StatelessWidget {
             if (state.loginModel.status!) {
               print(state.loginModel.message);
               print(state.loginModel.data!.token);
-              // CacheHelper.saveData(
-              //         key: 'token', value: state.loginModel.data!.token)
-              //     .then((value) {
-              //   token = state.loginModel.data!.token;
-              //   navigateAndFinish(context, ShopLayout());
-              // });
+              CachHelper.saveData(
+                      key: 'token', value: state.loginModel.data!.token)
+                  .then((value) {
+                showToast(
+                  context: context,
+                  message: '${state.loginModel.message}',
+                  state: ToastStates.SUCCESS,
+                );
+                navigateAndFinish(context, ShopLayoutScreen());
+              });
             } else {
               print(state.loginModel.message);
-              // showToast(
-              //   text: '${state.loginModel.message}',
-              //   state: ToastStates.ERROR,
-              // );
+
+              showToast(
+                context: context,
+                message: '${state.loginModel.message}',
+                state: ToastStates.ERROR,
+              );
             }
           }
         }, builder: (BuildContext context, Object? state) {

@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 
 Widget defaultButton({
@@ -105,6 +106,29 @@ Color choseToastColor(ToastStates state) {
       break;
   }
   return color;
+}
+
+void showToast({
+  required String message,
+  required ToastStates state,
+  required BuildContext context,
+}) {
+  final snackBar = SnackBar(
+    duration: Duration(seconds: 2),
+    elevation: 0,
+    behavior: SnackBarBehavior.floating,
+    backgroundColor: Colors.transparent,
+    content: AwesomeSnackbarContent(
+      color: choseToastColor(state),
+      title: 'Oh Hey!',
+      message: message,
+      contentType: ContentType.failure,
+    ),
+  );
+
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(snackBar);
 }
 
 Widget myDivider() => Padding(

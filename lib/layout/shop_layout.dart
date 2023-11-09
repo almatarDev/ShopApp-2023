@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopapp/layout/cubit/cubit.dart';
 import 'package:shopapp/layout/cubit/states.dart';
 
-class ShopLayout extends StatelessWidget {
-  const ShopLayout({super.key});
+class ShopLayoutScreen extends StatelessWidget {
+  const ShopLayoutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
